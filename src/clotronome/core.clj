@@ -1,6 +1,6 @@
 (ns clotronome.core)
- (:use :reload-all clodiuno.core)
-  (:use :reload-all clodiuno.firmata))
+(require '[clodiuno.core :as cld])
+(require '[clodiuno.firmata :as cldf])
 
 (defn led-pins []
   (range 2 14))
@@ -10,18 +10,19 @@
 (def init-delay 5000)
 
 (defn blink [board led]
-  (digital-write board led HIGH)
-  (Thread/sleep (analog-read board tempo-changer-pin))
-  (digital-write board led LOW))
+  (cld/digital-write board led cld/HIGH)
+  (Thread/sleep (cld/analog-read board tempo-changer-pin))
+  (cld/digital-write board led cld/LOW))
+
 
 (defn -main [& args]
-  (let [board (arduino :firmata "/dev/ttyUSB0")] 
+  (let [board (cld/arduino :firmata "/dev/ttyUSB0")] 
     (Thread/sleep init-delay)  ;; arduino needs some time to boot
 
     (doseq [pin (led-pins)]
-      (pin-mode board pin OUTPUT))
+      (cld/pin-mode board pin cld/OUTPUT))
 
-    (enable-pin board :analog tempo-changer-pin)
+    (cld/enable-pin board :analog tempo-changer-pin)
     (Thread/sleep init-delay)
 
     (while true
