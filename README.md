@@ -9,6 +9,6 @@ LED display that can be easily seen.
 
 
 Initial prototype:
-![Clotronome metronome](/images/metronome.png)
+![Clotronome metronome](/images/metronome.jpg)
 
 
